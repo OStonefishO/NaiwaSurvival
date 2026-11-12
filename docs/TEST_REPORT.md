@@ -65,7 +65,8 @@ Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Web"
 - 退出码 0
 - 生成 `index.html`、`index.js`、`index.wasm`、`index.pck`、`index.png`、worklet JS
 - 本地 HTTP 200，页面与 PCK/WASM 可访问
-- 无头 Edge 通过 SwiftShader 截图只捕获到 Godot 启动画面（`preview/web_game.png`），未能在无头环境确认完整进入标题画面；需要在真实浏览器做最终手动验收
+- 使用带 COOP/COEP 头的 `tools/serve_web.py` 重新测试，所有资源 200
+- 无头 Edge 通过 SwiftShader 截图只捕获到 Godot 启动画面（`preview/web_game.png` 已清理），未能在无头环境确认完整进入标题画面；需要在真实浏览器做最终手动验收
 
 ## 已知风险 / 未覆盖
 
