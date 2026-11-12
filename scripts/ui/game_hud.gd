@@ -49,6 +49,10 @@ var weather_label: Label
 var quest_title: Label
 var quest_desc: Label
 var quest_step_label: Label
+var boss_panel: PanelContainer
+var boss_name_label: Label
+var boss_value_label: Label
+var boss_bar: ProgressBar
 var hotbar_slots: Array[Button] = []
 var inventory_slots: Array[Button] = []
 var inventory_hotbar_slots: Array[Button] = []
@@ -263,6 +267,28 @@ func _build_gameplay() -> void:
 	build_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	build_hint.visible = false
 	gameplay_root.add_child(build_hint)
+	# boss bar sits above the prompt so it does not fight the quest card
+	boss_panel = PanelContainer.new()
+	boss_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.07, 0.06, 0.045, 0.94), Color(0.9, 0.65, 0.35, 0.7), 12))
+	boss_panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	boss_panel.position = Vector2(-235, -238)
+	boss_panel.custom_minimum_size = Vector2(470, 0)
+	boss_panel.visible = false
+	gameplay_root.add_child(boss_panel)
+	var bv := VBoxContainer.new()
+	bv.add_theme_constant_override("separation", 4)
+	boss_panel.add_child(bv)
+	var bh := HBoxContainer.new()
+	bv.add_child(bh)
+	boss_name_label = _label("古树守护者", 15, GOLD)
+	boss_name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bh.add_child(boss_name_label)
+	boss_value_label = _label("", 13, CREAM)
+	bh.add_child(boss_value_label)
+	boss_bar = _bar(Color("#d77a4f"), Color(0.03, 0.07, 0.05, 0.95))
+	boss_bar.max_value = 100
+	boss_bar.value = 100
+	bv.add_child(boss_bar)
 
 func _add_stat_row(parent: VBoxContainer, name: String, _kind: String, color: Color, value: bool) -> void:
 	var row := HBoxContainer.new()
@@ -562,7 +588,7 @@ func _build_chest() -> void:
 		b.custom_minimum_size = Vector2(72, 52)
 		dg.add_child(b)
 		chest_deposit_slots.append(b)
-	var hint := _label("箱子和背包共用 24 格容量；点击即可搬运整组物品。", 12, MINT)
+	var hint := _label("箱子 12 格；点击背包整格存入，点击箱内物品取出。", 12, MINT)
 	v.add_child(hint)
 
 func _refresh_chest() -> void:
@@ -621,6 +647,7 @@ func show_title() -> void:
 	build_root.visible = false
 	if chest_root: chest_root.visible = false
 	inventory_open = false; craft_open = false; build_open = false; chest_open = false; death_open = false; pause_open = false
+	if boss_panel: boss_panel.visible = false
 	continue_button.disabled = not SaveManager.has_save()
 	fade_rect.color.a = 0.0
 
@@ -634,6 +661,7 @@ func begin_game() -> void:
 	build_root.visible = false
 	if chest_root: chest_root.visible = false
 	_fade_in()
+	hide_boss()
 	_reconnect_inventory()
 	refresh_inventory()
 	update_stats()
@@ -652,6 +680,7 @@ func show_death(reason := "") -> void:
 	death_open = true
 	chest_open = false
 	if chest_root: chest_root.visible = false
+	hide_boss()
 	death_root.visible = true
 	gameplay_root.visible = false
 	if reason != "":
@@ -710,6 +739,22 @@ func set_build_hint(active: bool, text := "") -> void:
 	build_hint.visible = active
 	if active and text != "":
 		build_hint.text = text
+
+func show_boss(name_text: String) -> void:
+	if boss_panel:
+		boss_name_label.text = name_text
+		boss_panel.visible = true
+
+func update_boss(health: float, max_health: float) -> void:
+	if boss_panel == null:
+		return
+	boss_bar.max_value = maxf(1.0, max_health)
+	boss_bar.value = clampf(health, 0.0, max_health)
+	boss_value_label.text = "%d / %d" % [int(round(health)), int(round(max_health))]
+
+func hide_boss() -> void:
+	if boss_panel:
+		boss_panel.visible = false
 
 func any_panel_open() -> bool:
 	return inventory_open or craft_open or build_open or chest_open or pause_open
