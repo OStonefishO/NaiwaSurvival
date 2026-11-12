@@ -1,0 +1,31 @@
+# Godot generated files
+.godot/
+*.translation
+
+# Build outputs (downloadable builds live on GitHub Releases)
+build/
+downloads/
+
+# Logs and temporary files
+logs*
+*.log
+*.tmp
+*.bak
+
+# Blender backup files
+*.blend1
+*.blend2
+
+# Local browser / test profiles
+preview/edge_profile*
+preview/qq_*
+preview/demo_message.txt
+
+# Local development helper scripts and tunnel binary
+tools/
+
+# Python / OS cruft
+__pycache__/
+*.pyc
+Thumbs.db
+.DS_Store

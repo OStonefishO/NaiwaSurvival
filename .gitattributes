@@ -1,0 +1,15 @@
+* text=auto
+*.wav binary
+*.ogg binary
+*.mp3 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.glb binary
+*.blend binary
+*.ttf binary
+*.otf binary
+*.pck binary
+*.apk binary
+*.exe binary
