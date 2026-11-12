@@ -59,6 +59,13 @@ godot --headless --path . --export-release "Web" "build/web/index.html"
 - `build/windows/NaiwaForest.exe`
 - `build/web/index.html`（同目录需要 `.pck`、`.wasm`、`.js`、`.png`）
 
+Web 版本必须通过 HTTP 服务打开（不能直接双击 `index.html`）。仓库提供了一个带 COOP/COEP 头的本地服务器：
+
+```powershell
+python tools/serve_web.py 8080
+# 浏览器打开 http://127.0.0.1:8080/index.html
+```
+
 ## 测试
 
 无头集成测试通过命令参数启动：
