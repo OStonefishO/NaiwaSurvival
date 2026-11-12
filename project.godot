@@ -1,5 +1,11 @@
 ; Engine configuration file.
-; 《奶蛙：林间新生》 — Godot 4.7.2
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
 
 [application]
@@ -16,6 +22,10 @@ EventBus="*res://scripts/core/event_bus.gd"
 GameDB="*res://scripts/core/game_db.gd"
 SaveManager="*res://scripts/core/save_manager.gd"
 AudioManager="*res://scripts/core/audio_manager.gd"
+
+[debug]
+
+gdscript/warnings/treat_warnings_as_errors=false
 
 [display]
 
@@ -36,10 +46,6 @@ theme/default_font_multichannel_signed_distance_field=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
-anti_aliasing/quality/msaa_3d=2
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+anti_aliasing/quality/msaa_3d=2
 environment/defaults/default_clear_color=Color(0.07, 0.14, 0.11, 1)
-
-[debug]
-
-gdscript/warnings/treat_warnings_as_errors=false
