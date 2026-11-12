@@ -45,6 +45,7 @@ var _night_spawn_timer := 0.0
 var _autosave_timer := 0.0
 var _hud_time_timer := 0.0
 var _prompt_timer := 0.0
+var _boss_hud_timer := 0.0
 var _last_weather := ""
 var _last_night := false
 
@@ -307,6 +308,10 @@ func _process(delta: float) -> void:
 		if _prompt_timer > 0.12:
 			_prompt_timer = 0.0
 			_update_interaction_prompt()
+		_boss_hud_timer += delta
+		if _boss_hud_timer > 0.1:
+			_boss_hud_timer = 0.0
+			_update_boss_hud()
 	if rain and player:
 		rain.global_position = player.global_position + Vector3(0, 12, 0)
 		fireflies.global_position = player.global_position + Vector3(0, 1.5, 0)
@@ -454,8 +459,20 @@ func _check_explore() -> void:
 		if not boss_spawned:
 			boss_spawned = true
 			boss = spawn_enemy("ancient_guardian", world.BOSS_POS + Vector3(0, 0, 5))
+			if hud:
+				hud.show_boss("古树守护者")
 			toast("林心深处传来低沉的震动。古树守护者醒了。", 4.0)
 		_advance_quest()
+
+func _update_boss_hud() -> void:
+	if hud == null:
+		return
+	if boss != null and is_instance_valid(boss) and boss.state != ForestEnemy.State.DEAD:
+		if not hud.boss_panel.visible:
+			hud.show_boss("古树守护者")
+		hud.update_boss(boss.health, boss.data.max_health)
+	else:
+		hud.hide_boss()
 
 func quest_event(kind: String, id: String) -> void:
 	match kind:
@@ -591,6 +608,7 @@ func respawn_player() -> void:
 	if hud:
 		hud.hide_death()
 		hud.begin_game()
+		hud.hide_boss()
 		hud.update_stats()
 	_update_hud()
 	_update_quest_ui()
@@ -877,6 +895,7 @@ func start_game(want_load := false) -> void:
 		player.survival.stamina_changed.connect(func(_c, _m): _update_hud())
 		_spawn_initial_enemies()
 	hud.begin_game()
+	hud.hide_boss()
 	hud.update_stats()
 	hud.update_world_info(day, hour, weather)
 	_update_quest_ui()
