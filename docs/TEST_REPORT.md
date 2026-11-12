@@ -72,7 +72,7 @@ Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Web"
 
 - Web 的最终交互与音频需要真实浏览器确认。
 - Android 预设未构建、未测试。
-- Boss 血条 UI 只使用敌人头顶血条，没有独立 Boss HUD。
-- 储物箱为共享容量搬运箱，不是独立的多箱仓库。
+- Boss 血条 UI 使用 HUD 的独立 Boss 条，并保留敌人头顶血条。
+- 储物箱为 12 格物品搬运箱，点击整格存入/取出。
 - 天气系统没有温度/湿度/农业联动。
 - `ERROR: N resources still in use at exit` 在无头退出时偶发，来自退出时粒子/补间清理，不影响运行。
