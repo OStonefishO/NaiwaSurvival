@@ -1,0 +1,12 @@
+.godot/
+build/
+logs_*.txt
+final_*.txt
+temp_edge_profile/
+temp_edge_profile2/
+*.tmp
+*.blend1
+.DS_Store
+Thumbs.db
+preview/web_game.png
+dist/
