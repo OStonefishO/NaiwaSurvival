@@ -2,6 +2,8 @@
 
 一只圆滚滚的奶蛙漂流到被诅咒的海盗湾。白天采集资源、搭建营地，黄昏准备防御，夜晚抵御海盗亡魂；活过一夜又一夜。三张藏宝图和山巅信号火是可选的逃离路线。
 
+![NaiwaSurvival preview](preview/naigwa_preview_poster.png)
+
 - 引擎：**Godot 4.7.2**（Compatibility 渲染器，Windows / Android / Web 同一套逻辑）
 - 视角：3D 上帝视角 · 低多边形卡通
 - 核心循环：采集 → 建造 → 夜晚战斗 → 天亮进入下一天
